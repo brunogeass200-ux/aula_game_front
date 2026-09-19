@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        canvas{
+            background-color: red;
+        }
+
+    </style>
+
+    <script>
+        var canvas, ctx, altura, largura, frame = 0;
+
+        function clique(event) {
+            alert("clicou");
+        }
+
+        function atualiza() {
+            frame++;
+        }
+
+        function desenha() {
+            ctx.clearRect(0, 0, largura, altura);
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, largura, altura);
+            ctx.fillStyle = "#000000";
+            ctx.font = "20px Arial";
+            ctx.fillText("Frame: " + frame, 20, 30);
+        }
+
+        function main() {
+            altura = window.innerHeight;
+            largura = window.innerWidth;
+
+            if (largura >= 500) {
+                largura = 600;
+                altura = 600;
+            }
+
+            canvas = document.createElement("canvas");
+            canvas.width = largura;
+            canvas.height = altura;
+            canvas.style.border = "1px solid #000";
+
+            ctx = canvas.getContext("2d");
+            document.body.appendChild(canvas);
+            document.addEventListener("mousedown", clique);
+            roda();
+        }
+
+        function roda() {
+            atualiza();
+            desenha();
+            window.requestAnimationFrame(roda);
+        }
+
+        main();
+    </script>
+</body>
+</html>
