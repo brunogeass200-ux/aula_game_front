@@ -1,0 +1,25 @@
+{
+  "name": "aula_game_front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunogeass200-ux/aula_game_front.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/brunogeass200-ux/aula_game_front/issues"
+  },
+  "homepage": "https://github.com/brunogeass200-ux/aula_game_front#readme",
+  "devDependencies": {
+    "eslint": "^10.11.0",
+    "eslint-plugin-html": "^8.2.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "eslint.validate": ["javascript", "html"],
+  "eslint.options": {
+    "extensions": [".js", ".html"]
+  },
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.html": "html"
+  }
+}

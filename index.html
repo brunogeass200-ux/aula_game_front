@@ -8,46 +8,227 @@
 <body>
     <style>
         canvas{
-            background-color: red;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin: 20px auto;
         }
 
     </style>
 
     <script>
-        var canvas, ctx, altura, largura, frame=0
-        function clique(event){
-            alert("clicou")
+        var 
+        canvas, 
+        ctx, // tudo que tiver no canvas
+        altura, // altura do canva
+        largura, // largura do canva
+        frames = 0, 
+        maxPulos = 3, // maximo de pulos do personagem
+        velocidade = 6.5, // velocidade do obstaculos
 
+        estadoDaTela = {
+            jogar: 0,
+            jogando: 1,
+            final: 2
         }
+
+        chao = {
+            y: 550,
+            altura: 50,
+            cor: "#ffdf70",
+            desenha: function() {
+                ctx.fillStyle = this.cor;
+                ctx.fillRect(0, this.y, largura, this.altura) 
+            },
+            
+        };
+
+         bloco = {
+                y: 50,
+                x: 50,
+                altura: 50,
+                largura: 50,
+                cor: "red",
+                gravidade: 1.5,
+                velocidade: 0,
+                forcaDoPulo: 25,
+                qdtpulos: 0,
+
+                atualiza: function() {
+                  this.velocidade = this.gravidade + this.velocidade
+                  this.y += this.velocidade
+                  
+                  if (this.y > chao.y - this.altura){
+                    this.y = chao.y - this.altura
+                    this.qdtpulos = 0
+
+                  }
+                },
+                
+                pula: function(){
+                    if (this.qdtpulos < maxPulos) {
+                        this.velocidade = - this.forcaDoPulo
+                        this.qdtpulos += 1
+
+                    }
         
-        function main(){
+                },
+
+
+                desenha: function() {
+                    ctx.fillStyle = this.cor
+                    ctx.fillRect(this.x, this.y, this.largura, this.altura)
+                }
+
+            };
+         
+            obstaculos = {
+                _obs: [],
+                cores:["red","black", "blue"],
+                tempInsere: 0,
+
+                insere: function(){  //to colocando tudo isso abaixo na lista "_obs" que é x, altura, largura, cores
+                    this._obs.push({
+                        x: largura,
+                        altura: 80 + Math.floor(30 * Math.random()),
+                        largura: 50 + Math.floor(25 * Math.random()),
+                        cor: this.cores[Math.floor(this.cores.length * Math.random())]
+
+                    });
+
+                    this.tempInsere = 30 + Math.floor(50 * Math.random())
+                },
+
+                atualiza: function() {
+                    
+                    if (this.tempInsere == 0){
+                        this.insere();
+                        
+                    }else{
+                        this.tempInsere --;
+                    }
+                
+
+                    for (var i = 0 ; i < this._obs.length; i++ ){
+                        var obs = this._obs[i]
+
+                        obs.x = obs.x - velocidade
+
+                        if (bloco.x < obs.x + obs.largura   // colição com o obstaculo
+                        && bloco.x + bloco.largura >= obs.x 
+                        && bloco.y + bloco.altura >= chao.y - obs.altura ) {
+
+                            estadoAtual = estadoDaTela.final
+                        }
+                        else if (obs.x <= obs.largura - obs.largura) {
+                             this._obs.splice(i, 1)
+                             i--;
+                        }
+
+                    } 
+                    
+
+                },
+
+                limpa: function () {
+                    this._obs = []
+                },
+
+                desenha: function() {
+                    for (var i = 0 ,tam = this._obs.length; i < tam; i++ ){
+                        var obs = this._obs[i]
+                        ctx.fillStyle = obs.cor;
+                        ctx.fillRect( obs.x, chao.y - obs.altura, obs.largura, obs.altura);
+                    };
+                        
+                }
+
+                 
+            }
+
+        function clique(event) {
+
+            if (estadoAtual == estadoDaTela.jogando) {
+                 bloco.pula();
+            }
+            else if (estadoAtual == estadoDaTela.jogar) {
+                estadoAtual = estadoDaTela.jogando
+            }
+            else if (estadoAtual == estadoDaTela.final) {
+                estadoAtual = estadoDaTela.jogar
+                obstaculos.limpa()
+                bloco.y = 0
+                bloco.velocidade = 0
+            }
+           
+        }
+
+       
+        function main() {
             altura = window.innerHeight;
             largura = window.innerWidth;
-            if (largura >= 500){
-                 largura = 600
-                 altura = 600
-             }
-            canvas = ducument.createElement("canvas");
+
+            if (largura >= 500) {
+                largura = 600;
+                altura = 600;
+            }
+
+            canvas = document.createElement("canvas");
             canvas.width = largura;
             canvas.height = altura;
             canvas.style.border = "1px solid #000";
 
-            
             ctx = canvas.getContext("2d");
-            document.body.appedChild(canvas);
+            document.body.appendChild(canvas);
             document.addEventListener("mousedown", clique);
-            roda()
 
+            estadoAtual = estadoDaTela.jogar;
+            roda();
         }
-
-        function roda(){
+        function roda() {
             atualiza();
             desenha();
-
             window.requestAnimationFrame(roda);
         }
 
+        function atualiza() {
+            frames++;
+            if (estadoAtual == estadoDaTela.jogando){
+                obstaculos.atualiza();
+            }
+        
+            bloco.atualiza();
+        }
 
+        function desenha() {
+            ctx.fillStyle = "#50beff";
+            ctx.fillRect(0, 0, largura, altura)
+
+            if (estadoAtual == estadoDaTela.jogar){
+                ctx.fillStyle = "green"
+                ctx.fillRect(largura / 2.5, altura / 3, 150,150)
+            } 
+
+            else if(estadoAtual == estadoDaTela.final) {
+                ctx.fillStyle = "red"
+                ctx.fillRect(largura / 2.5, altura / 3 , 150 , 150 )
+            }
+            
+            else if (estadoAtual == estadoDaTela.jogando){
+                obstaculos.desenha();
+            }
+
+            chao.desenha();
+            bloco.desenha();
+            
+          
+        }
+
+      
+
+        main();
     </script>
 </body>
 </html>
