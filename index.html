@@ -58,13 +58,16 @@
 
                 atualiza: function() {
                   this.velocidade = this.gravidade + this.velocidade
-                  this.y += this.velocidade
+                  this.y = this.y + this.velocidade
                   
-                  if (this.y > chao.y - this.altura){
+                  if (this.y > chao.y - this.altura && estadoAtual != estadoDaTela.final){
                     this.y = chao.y - this.altura
                     this.qdtpulos = 0
+                    this.velocidade = 0
+                    
 
                   }
+                 
                 },
                 
                 pula: function(){
@@ -155,12 +158,13 @@
             }
             else if (estadoAtual == estadoDaTela.jogar) {
                 estadoAtual = estadoDaTela.jogando
+                obstaculos.limpa()
             }
             else if (estadoAtual == estadoDaTela.final) {
                 estadoAtual = estadoDaTela.jogar
-                obstaculos.limpa()
                 bloco.y = 0
                 bloco.velocidade = 0
+                
             }
            
         }
@@ -195,11 +199,12 @@
 
         function atualiza() {
             frames++;
-            if (estadoAtual == estadoDaTela.jogando){
+            if (estadoAtual == estadoDaTela.jogando ){
                 obstaculos.atualiza();
             }
         
             bloco.atualiza();
+
         }
 
         function desenha() {
@@ -214,9 +219,11 @@
             else if(estadoAtual == estadoDaTela.final) {
                 ctx.fillStyle = "red"
                 ctx.fillRect(largura / 2.5, altura / 3 , 150 , 150 )
+
+                
             }
             
-            else if (estadoAtual == estadoDaTela.jogando){
+            if (estadoAtual == estadoDaTela.jogando || estadoAtual == estadoDaTela.final){
                 obstaculos.desenha();
             }
 
