@@ -28,6 +28,7 @@
         maxPulos = 3, // maximo de pulos do personagem
         velocidade = 6.5, // velocidade do obstaculos
 
+
         estadoDaTela = {
             jogar: 0,
             jogando: 1,
@@ -55,6 +56,7 @@
                 velocidade: 0,
                 forcaDoPulo: 25,
                 qdtpulos: 0,
+                score: 0,
 
                 atualiza: function() {
                   this.velocidade = this.gravidade + this.velocidade
@@ -64,10 +66,19 @@
                     this.y = chao.y - this.altura
                     this.qdtpulos = 0
                     this.velocidade = 0
-                    
-
+         
                   }
+
+                  
                  
+                },
+
+                reset: function() {
+                    this.velocidade = 0
+                    this.y = 0 
+                    this.score = 0
+
+                    
                 },
                 
                 pula: function(){
@@ -121,14 +132,19 @@
 
                         if (bloco.x < obs.x + obs.largura   // colição com o obstaculo
                         && bloco.x + bloco.largura >= obs.x 
-                        && bloco.y + bloco.altura >= chao.y - obs.altura ) {
-
+                        && bloco.y + bloco.altura >= chao.y - obs.altura ) 
+        
                             estadoAtual = estadoDaTela.final
-                        }
-                        else if (obs.x <= obs.largura - obs.largura) {
+
+                        else if (obs.x < 40) 
+                            bloco.score ++;
+                        
+
+
+                        else if (obs.x <= obs.largura - obs.largura) 
                              this._obs.splice(i, 1)
                              i--;
-                        }
+                        
 
                     } 
                     
@@ -162,8 +178,7 @@
             }
             else if (estadoAtual == estadoDaTela.final) {
                 estadoAtual = estadoDaTela.jogar
-                bloco.y = 0
-                bloco.velocidade = 0
+                bloco.reset()
                 
             }
            
@@ -210,6 +225,9 @@
         function desenha() {
             ctx.fillStyle = "#50beff";
             ctx.fillRect(0, 0, largura, altura)
+            
+            
+            
 
             if (estadoAtual == estadoDaTela.jogar){
                 ctx.fillStyle = "green"

@@ -1,10 +1,17 @@
 {
-  "eslint.validate": ["javascript", "html"],
+  "eslint.validate": [
+    "javascript",
+    "html"
+  ],
   "eslint.options": {
-    "extensions": [".js", ".html"]
+    "extensions": [
+      ".js",
+      ".html"
+    ]
   },
   "editor.formatOnSave": true,
   "files.associations": {
     "*.html": "html"
-  }
+  },
+  "liveServer.settings.port": 5501
 }
