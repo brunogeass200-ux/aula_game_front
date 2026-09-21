@@ -26,7 +26,7 @@
         largura, // largura do canva
         frames = 0, 
         maxPulos = 3, // maximo de pulos do personagem
-        velocidade = 6.5, // velocidade do obstaculos
+        velocidade = 7, // velocidade do obstaculos
 
 
         estadoDaTela = {
@@ -132,20 +132,18 @@
 
                         if (bloco.x < obs.x + obs.largura   // colição com o obstaculo
                         && bloco.x + bloco.largura >= obs.x 
-                        && bloco.y + bloco.altura >= chao.y - obs.altura ) 
+                        && bloco.y + bloco.altura >= chao.y - obs.altura ) {
         
                             estadoAtual = estadoDaTela.final
 
-                        else if (obs.x < 40) 
+                        }else if (obs.x == 6) {
                             bloco.score ++;
-                        
 
-
-                        else if (obs.x <= obs.largura - obs.largura) 
+                        }else if (obs.x <= obs.largura - obs.largura) {
                              this._obs.splice(i, 1)
                              i--;
                         
-
+                        }
                     } 
                     
 
@@ -225,7 +223,10 @@
         function desenha() {
             ctx.fillStyle = "#50beff";
             ctx.fillRect(0, 0, largura, altura)
-            
+
+            ctx.fillStyle = "white"
+            ctx.font = "50px arial"
+            ctx.fillText(bloco.score , 30 , 40 )
             
             if (estadoAtual == estadoDaTela.jogar){
                 ctx.fillStyle = "green"
@@ -241,7 +242,7 @@
             
             if (estadoAtual == estadoDaTela.jogando || estadoAtual == estadoDaTela.final){
                 obstaculos.desenha();
-            }at
+            }
 
             chao.desenha();
             bloco.desenha();
