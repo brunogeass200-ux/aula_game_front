@@ -263,7 +263,9 @@
                 if (bloco.score < 10){
                      ctx.fillText(bloco.score, largura / 2, altura / 2)
                 } else if (bloco.score >= 10){
-                     ctx.fillText(bloco.score, largura / 2 -28 , altura / 2)
+                     ctx.fillText(bloco.score, largura / 2 -18 , altura / 2)
+                } else if(bloco.score < 100) {
+                     ctx.fillText(bloco.score, largura / 2 -200 , altura / 2)
                 }
 
             }
