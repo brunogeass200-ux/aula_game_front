@@ -85,9 +85,8 @@
                 this.y = 0
 
                 if (this.score > record) {
-                    record = this.score;
                     localStorage.setItem("record", this.score);
-                    
+                    record = this.score;
                 }
                 this.score = 0
 
@@ -258,14 +257,22 @@
                 ctx.fillRect(largura / 2.5, altura / 3, 150, 150)
                 ctx.fillStyle = "white"
                 ctx.font = "50px Arial"
-                ctx.textAling = "center"
-               
+                ctx.textAlign= "center"
+
+                if (bloco.score > record) {
+                    ctx.fillText('Novo Record', largura / 2, altura / 2.5 - 60)
+                    ctx.textAlign= "center"
+                }else{
+                    ctx.fillText('Record '+ record, largura / 2, altura / 2.5 - 60)
+                    ctx.textAlign= "center"
+                }
+                
                 if (bloco.score < 10){
-                     ctx.fillText(bloco.score, largura / 2, altura / 2)
-                } else if (bloco.score >= 10){
-                     ctx.fillText(bloco.score, largura / 2 -18 , altura / 2)
-                } else if(bloco.score < 100) {
-                     ctx.fillText(bloco.score, largura / 2 -200 , altura / 2)
+                        ctx.fillText(bloco.score, largura / 2 +18, altura / 2)
+                } else if (bloco.score < 100 ){
+                        ctx.fillText(bloco.score, largura / 2 + 15 , altura / 2)
+                } else if(bloco.score >= 100) {
+                        ctx.fillText(bloco.score, largura / 2 + 15 , altura / 2)
                 }
 
             }
