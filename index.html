@@ -17,6 +17,11 @@
             right: 0px;
             margin: 20px auto;
         }
+        .recordFinal{
+            width: 500px;
+            height: 500px;
+            color: blue;
+        }
     </style>
 
     <script>
@@ -251,7 +256,15 @@
             else if (estadoAtual == estadoDaTela.final) {
                 ctx.fillStyle = "red"
                 ctx.fillRect(largura / 2.5, altura / 3, 150, 150)
-
+                ctx.fillStyle = "white"
+                ctx.font = "50px Arial"
+                ctx.textAling = "center"
+               
+                if (bloco.score < 10){
+                     ctx.fillText(bloco.score, largura / 2, altura / 2)
+                } else if (bloco.score >= 10){
+                     ctx.fillText(bloco.score, largura / 2 -28 , altura / 2)
+                }
 
             }
 
