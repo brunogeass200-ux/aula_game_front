@@ -19,11 +19,21 @@ var estadoDaTela = {
 // Chao desenhado na parte inferior do canvas.
 var chao = {
     y: 550,
+    x: 0,
     altura: 50,
     cor: "#ffdf70",
 
+    atualiza: function () {
+        this.x = this.x - velocidade;
+        if (this.x <= -chaoSprite.largura) {
+            this.x = 0;
+        }
+
+    },
+
     desenha: function () {
-        ctx.fillStyle = this.cor;
-        ctx.fillRect(0, this.y, largura, this.altura);
+        chaoSprite.desenha(this.x , this.y);
+        chaoSprite.desenha(this.x + chaoSprite.largura, this.y);
+     
     }
 };

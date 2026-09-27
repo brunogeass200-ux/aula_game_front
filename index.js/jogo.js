@@ -52,8 +52,6 @@ function roda() {
 }
 
 function atualiza() {
-    frames++;
-
     if (estadoAtual == estadoDaTela.jogando) {
         obstaculos.atualiza();
     }
@@ -62,6 +60,7 @@ function atualiza() {
         obstaculos.avisoNivel--;
     }
 
+    chao.atualiza();
     bloco.atualiza();
 }
 
@@ -69,29 +68,33 @@ function desenha() {
 
     bg.desenha(0, 0); // Desenha o fundo do jogo.
     
-    ctx.fillStyle = "black";// Desenha o score do jogador.
+    ctx.fillStyle = "white";// Desenha o score do jogador.
     ctx.font = "50px arial";
-    ctx.fillText(bloco.score, 30, 40);
+    ctx.fillText(bloco.score, 30, 40); 
 
     if (estadoAtual == estadoDaTela.jogar) {
+        inicioSprite.desenha( 150, 100);
 
-        ctx.fillStyle = "green";
-        ctx.fillRect(largura / 2.5, altura / 3, 150, 150);
 
     } else if (estadoAtual == estadoDaTela.final) {
-        ctx.fillStyle = "red";
-        ctx.fillRect(largura / 2.5, altura / 3, 150, 150);
-        ctx.fillStyle = "black";
-        ctx.font = "50px Arial";
-        ctx.textAlign = "center";
-
+       
         if (bloco.score > record) {
-            ctx.fillText("Novo Record", largura / 2, altura / 2.5 - 60);
+            novoRecordSprite.desenha( 50, 100);
+            ctx.fillStyle = "white";
+            ctx.fillText(record,415, 345);
         } else {
-            ctx.fillText("Record " + record, largura / 2, altura / 2.5 - 60);
+            ctx.fillStyle = "white";
+            ctx.fillText(record,415, 420);
+            fimSprite.desenha( 100, 10);
+            ctx.fillText(bloco.score, 395, 330);
+
+            recordSprite.desenha( 50, 350);
+            ctx.fillStyle = "white";
+            ctx.font = "50px Arial";
+            ctx.fillText(record, 415, 420);
         }
 
-        ctx.fillText(bloco.score, largura / 2 + 15, altura / 2);
+        
     }
 
     if (estadoAtual == estadoDaTela.jogando || estadoAtual == estadoDaTela.final) {

@@ -6,18 +6,22 @@ function Sprite(x, y, largura, altura) {
 	this.largura = largura;
 	this.altura = altura;
 
-	this.desenha = function(xCanvas, yCanvas) {
-	ctx.drawImage(img, 
-        this.x, this.y, 
-        this.largura, this.altura, 
-        xCanvas, yCanvas, 
-        this.largura, this.altura);
-	}
+	this.desenha = function(xCanvas, yCanvas) 
+    {
+	    ctx.drawImage(img, // de onde se origina a imagem
+        this.x, this.y, this.largura, this.altura, // Origem
+
+        xCanvas, yCanvas, this.largura, this.altura);// Destino
+	                                }
 }
 
 var bg = new Sprite(0, 0, 600, 600)
 var spriteBoneco = new Sprite(618, 16, 87, 87)
-
+var chaoSprite = new Sprite(0, 600, 600, 50)
+var inicioSprite = new Sprite(600, 120, 850, 350)
+var fimSprite = new Sprite(600, 480, 550, 350)
+var novoRecordSprite = new Sprite(0, 700, 450, 480)
+var recordSprite = new Sprite(0, 880, 450, 100)
 
 
 
@@ -32,10 +36,15 @@ var bloco = {
 	forcaDoPulo: 25,
 	qdtpulos: 0,
 	score: 0,
+    rotacao: 0,
 
 	atualiza: function () {
 		this.velocidade = this.gravidade + this.velocidade;
 		this.y = this.y + this.velocidade;
+        
+        if (estadoAtual == estadoDaTela.jogando) {// Faz o boneco rotacionar de acordo com a velocidade.
+        this.rotacao += (velocidade / (this.largura / 2)) * 0.5;
+        }
 
 		if (this.y > chao.y - this.altura && estadoAtual != estadoDaTela.final) {
 			this.y = chao.y - this.altura;
@@ -64,7 +73,12 @@ var bloco = {
 	},
 
 	desenha: function () {
-        spriteBoneco.desenha(this.x, this.y);
-		
+        ctx.save();
+        //operator de rotação
+        ctx.translate(this.x + this.largura / 2, this.y + this.altura / 2);
+        ctx.rotate(this.rotacao);
+        spriteBoneco.desenha(-spriteBoneco.largura/ 2 , -spriteBoneco.altura / 2);
+        ctx.restore();
 	}
 };
+ 
